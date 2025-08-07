@@ -10,27 +10,45 @@
           <!-- IDs Filter -->
           <div class="filter-group">
             <label>IDs:</label>
-            <mat-form-field appearance="outline" class="multiselect-field">
-              <mat-select [(ngModel)]="selectedIds" 
-                         (selectionChange)="onIdSelectionChange()" 
-                         multiple 
-                         placeholder="Select trainee IDs">
-                <mat-option *ngFor="let id of availableIds" [value]="id">
-                  {{id}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="filter-field">
+              <mat-form-field appearance="outline" class="multiselect-field">
+                <mat-select [(ngModel)]="selectedIds" 
+                           (selectionChange)="onIdSelectionChange()" 
+                           multiple 
+                           placeholder="Select trainee IDs">
+                  <mat-option *ngFor="let id of availableIds" [value]="id">
+                    {{id}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-icon-button 
+                      class="clear-button" 
+                      [class.visible]="selectedIds.length > 0"
+                      (click)="clearIds()"
+                      matTooltip="Clear IDs filter">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
           </div>
 
           <!-- Names Filter -->
           <div class="filter-group">
             <label>Names:</label>
-            <mat-form-field appearance="outline">
-              <input matInput 
-                     [(ngModel)]="nameFilter" 
-                     (input)="onNameFilterChange()"
-                     placeholder="Enter name to filter">
-            </mat-form-field>
+            <div class="filter-field">
+              <mat-form-field appearance="outline">
+                <input matInput 
+                       [(ngModel)]="nameFilter" 
+                       (input)="onNameFilterChange()"
+                       placeholder="Enter name to filter">
+              </mat-form-field>
+              <button mat-icon-button 
+                      class="clear-button" 
+                      [class.visible]="nameFilter.length > 0"
+                      (click)="clearNameFilter()"
+                      matTooltip="Clear Names filter">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
           </div>
 
           <!-- State Filter -->

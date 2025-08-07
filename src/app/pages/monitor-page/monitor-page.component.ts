@@ -7,6 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DataService, Student } from '../../core/services/data.service';
 import { StateService, MonitorPageState } from '../../core/services/state.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -30,7 +33,10 @@ export interface StudentMonitor {
     MatInputModule,
     MatCheckboxModule,
     MatTableModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule
   ],
   templateUrl: './monitor-page.component.html',
   styleUrls: ['./monitor-page.component.scss']
@@ -161,6 +167,18 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
   }
 
   onStatusFilterChange(): void {
+    this.applyFilters();
+    this.saveState();
+  }
+
+  clearIds(): void {
+    this.selectedIds = [];
+    this.applyFilters();
+    this.saveState();
+  }
+
+  clearNameFilter(): void {
+    this.nameFilter = '';
     this.applyFilters();
     this.saveState();
   }
