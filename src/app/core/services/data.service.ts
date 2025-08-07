@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, delay } from 'rxjs';
+import { APP_CONSTANTS } from '../constants/app.constants';
+import { UtilsService } from './utils.service';
 
 export interface Student {
   id: string;
@@ -341,6 +343,19 @@ export class DataService {
       country: 'USA',
       zip: '60601'
     },
+      {
+      id: '100000003',
+      name: 'Sarah Davis',
+      date: '17/01/2024',
+      grade: 92,
+      subject: 'Chemistry',
+      email: 'sarah.davis@email.com',
+      dateJoined: '03/09/2023',
+      address: '789 Pine Rd',
+      city: 'Chicago',
+      country: 'USA',
+      zip: '60601'
+    },
     {
       id: '100000027',
       name: 'Samantha Carter',
@@ -395,9 +410,12 @@ export class DataService {
     }
   ];
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private utilsService: UtilsService
+  ) {}
 
-  getStudents(page: number = 1, pageSize: number = 10, filter?: string): Observable<DataResponse> {
+  getStudents(page: number = 1, pageSize: number = APP_CONSTANTS.DEFAULT_PAGE_SIZE, filter?: string): Observable<DataResponse> {
     let filteredStudents = [...this.mockStudents];
 
     // Apply filter if provided
@@ -444,8 +462,8 @@ export class DataService {
           }
           if (field === 'date') {
             // Handle DD/MM/YYYY format
-            const studentDate = this.parseDate(student.date);
-            const filterDate = this.parseDate(value);
+            const studentDate = this.utilsService.parseDate(student.date);
+            const filterDate = this.utilsService.parseDate(value);
             if (studentDate && filterDate) {
               return studentDate > filterDate;
             }
@@ -467,8 +485,8 @@ export class DataService {
           }
           if (field === 'date') {
             // Handle DD/MM/YYYY format
-            const studentDate = this.parseDate(student.date);
-            const filterDate = this.parseDate(value);
+            const studentDate = this.utilsService.parseDate(student.date);
+            const filterDate = this.utilsService.parseDate(value);
             if (studentDate && filterDate) {
               return studentDate < filterDate;
             }
@@ -488,20 +506,7 @@ export class DataService {
     });
   }
 
-  private parseDate(dateString: string): Date | null {
-    // Handle DD/MM/YYYY format
-    const parts = dateString.split('/');
-    if (parts.length === 3) {
-      const day = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
-      const year = parseInt(parts[2], 10);
-      
-      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-        return new Date(year, month, day);
-      }
-    }
-    return null;
-  }
+
 
   addStudent(student: Omit<Student, 'id'>): Observable<Student> {
     const newStudent: Student = {

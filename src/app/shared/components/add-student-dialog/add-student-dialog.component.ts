@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { Student } from '../../../core/services/data.service';
+import { UtilsService } from '../../../core/services/utils.service';
+import { SUBJECTS } from '../../../core/constants/app.constants';
 
 @Component({
   selector: 'app-add-student-dialog',
@@ -27,58 +29,29 @@ export class AddStudentDialogComponent {
   student: Partial<Student> = {
     id: '',
     name: '',
-    date: this.formatDateForInput(new Date()),
+    date: '',
     grade: 0,
     subject: '',
     email: '',
-    dateJoined: this.formatDateForInput(new Date()),
+    dateJoined: '',
     address: '',
     city: '',
     country: '',
     zip: ''
   };
 
-  subjects = [
-    'Algebra',
-    'Physics',
-    'Chemistry',
-    'Biology',
-    'Calculus',
-    'Statistics',
-    'Computer Science',
-    'English',
-    'History',
-    'Geography',
-    'Literature',
-    'Economics',
-    'Psychology',
-    'Sociology',
-    'Philosophy',
-    'Political Science',
-    'Art History',
-    'Music Theory',
-    'Drama',
-    'Film Studies',
-    'Linguistics',
-    'Anthropology',
-    'Archaeology',
-    'Astronomy',
-    'Meteorology',
-    'Oceanography',
-    'Geology',
-    'Botany'
-  ];
+  subjects = SUBJECTS;
 
   constructor(
-    public dialogRef: MatDialogRef<AddStudentDialogComponent>
-  ) {}
-
-  private formatDateForInput(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    public dialogRef: MatDialogRef<AddStudentDialogComponent>,
+    private utilsService: UtilsService
+  ) {
+    // Initialize dates using utility service
+    this.student.date = this.utilsService.formatDate(new Date());
+    this.student.dateJoined = this.utilsService.formatDate(new Date());
   }
+
+
 
   onCancel(): void {
     this.dialogRef.close();
