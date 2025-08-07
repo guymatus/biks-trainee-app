@@ -86,9 +86,14 @@ npm run test:coverage
 
 #### Example Test Files
 
-- `src/app/pages/data-page/data-page.component.spec.ts` - Data page component tests
-- `src/app/core/services/data.service.spec.ts` - Data service tests
-- `src/app/core/services/state.service.spec.ts` - State management tests
+- `src/app/pages/data-page/data-page.component.spec.ts` - Data page component tests (8 test cases)
+- `src/app/pages/monitor-page/monitor-page.component.spec.ts` - Monitor page component tests (10 test cases)
+- `src/app/shared/components/add-student-dialog/add-student-dialog.component.spec.ts` - Dialog component tests (12 test cases)
+- `src/app/core/services/data.service.spec.ts` - Data service tests (8 test cases)
+- `src/app/core/services/state.service.spec.ts` - State management tests (12 test cases)
+- `src/app/app.component.spec.ts` - Main app component tests (2 test cases)
+
+**Total: 52+ comprehensive test cases**
 
 #### Test Coverage Areas
 
