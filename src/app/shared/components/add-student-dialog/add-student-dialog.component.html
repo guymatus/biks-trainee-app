@@ -1,0 +1,88 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>Add New Student</h2>
+  
+  <mat-dialog-content>
+    <form class="student-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Student ID (Auto-generated)</mat-label>
+          <input matInput [(ngModel)]="student.id" name="id" readonly placeholder="Will be auto-generated">
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Name *</mat-label>
+          <input matInput [(ngModel)]="student.name" name="name" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Subject *</mat-label>
+          <mat-select [(ngModel)]="student.subject" name="subject" required>
+            <mat-option *ngFor="let subject of subjects" [value]="subject">
+              {{subject}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Grade *</mat-label>
+          <input matInput type="number" [(ngModel)]="student.grade" name="grade" min="0" max="100" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Test Date (DD/MM/YYYY)</mat-label>
+          <input matInput [(ngModel)]="student.date" name="date" placeholder="DD/MM/YYYY">
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Date Joined (DD/MM/YYYY)</mat-label>
+          <input matInput [(ngModel)]="student.dateJoined" name="dateJoined" placeholder="DD/MM/YYYY">
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="student.email" name="email">
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Address</mat-label>
+          <input matInput [(ngModel)]="student.address" name="address">
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>City</mat-label>
+          <input matInput [(ngModel)]="student.city" name="city">
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Country</mat-label>
+          <input matInput [(ngModel)]="student.country" name="country">
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>ZIP Code</mat-label>
+          <input matInput [(ngModel)]="student.zip" name="zip">
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button 
+            color="primary" 
+            (click)="onSave()"
+            [disabled]="!isFormValid()">
+      Add Student
+    </button>
+  </mat-dialog-actions>
+</div> 

@@ -1,0 +1,199 @@
+<div class="analysis-page">
+ 
+
+  <div class="controls-section">
+    <div class="control-group">
+      <mat-form-field appearance="outline" class="multiselect-field">
+        <mat-label>IDs</mat-label>
+        <mat-select [(ngModel)]="selectedStudentIds" 
+                   (selectionChange)="onStudentIdsChange()" 
+                   multiple 
+                   placeholder="Select trainee IDs for charts 1 and 2">
+          <mat-option *ngFor="let id of availableStudentIds" [value]="id">
+            {{id}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="control-group">
+      <mat-form-field appearance="outline" class="multiselect-field">
+        <mat-label>Subjects</mat-label>
+        <mat-select [(ngModel)]="selectedSubjects" 
+                   (selectionChange)="onSubjectsChange()" 
+                   multiple 
+                   placeholder="Select subjects for chart 3">
+          <mat-option *ngFor="let subject of availableSubjects" [value]="subject">
+            {{subject}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="charts-container">
+    <!-- Left Chart Panel -->
+    <div class="chart-panel left-panel" 
+         (dragover)="onDragOver($event)" 
+         (drop)="onDrop($event, 'left')">
+      <div class="chart-placeholder" *ngIf="!getChartByPosition('left')">
+        <mat-icon>insert_chart</mat-icon>
+        <p>Drop a chart here</p>
+      </div>
+      
+      <div class="chart-content" *ngIf="getChartByPosition('left') as chart">
+        <div class="chart-header" 
+             [draggable]="true" 
+             (dragstart)="onDragStart($event, chart)">
+          <h3>{{chart.title}}</h3>
+          <mat-icon class="drag-handle">drag_indicator</mat-icon>
+        </div>
+        
+        <div class="chart-body">
+          <div *ngIf="chart.type === 'chart1'" class="chart-data">
+            <h4>Grades Average Over Time</h4>
+            <div class="student-grades" *ngFor="let student of getFilteredStudents()">
+              <div class="student-info">
+                <strong>{{student.name}} ({{student.id}})</strong>
+                <span class="average-grade">Average: {{getAverageGradeByStudent(student.id).toFixed(1)}}%</span>
+              </div>
+              <div class="grade-bar">
+                <div class="grade-fill" [style.width.%]="getAverageGradeByStudent(student.id)"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="chart.type === 'chart2'" class="chart-data">
+            <h4>Student Averages</h4>
+            <div class="student-averages" *ngFor="let student of getFilteredStudents()">
+              <div class="student-card">
+                <div class="student-header">
+                  <strong>{{student.name}}</strong>
+                  <span class="student-id">{{student.id}}</span>
+                </div>
+                <div class="student-stats">
+                  <div class="stat">
+                    <span class="label">Subject:</span>
+                    <span class="value">{{student.subject}}</span>
+                  </div>
+                  <div class="stat">
+                    <span class="label">Grade:</span>
+                    <span class="value">{{student.grade}}%</span>
+                  </div>
+                  <div class="stat">
+                    <span class="label">Date:</span>
+                    <span class="value">{{student.date}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="chart.type === 'chart3'" class="chart-data">
+            <h4>Subject Averages</h4>
+            <div class="subject-grades" *ngFor="let subject of selectedSubjects.length > 0 ? selectedSubjects : availableSubjects">
+              <div class="subject-info">
+                <strong>{{subject}}</strong>
+                <span class="average-grade">Average: {{getAverageGradeBySubject(subject).toFixed(1)}}%</span>
+              </div>
+              <div class="grade-bar">
+                <div class="grade-fill" [style.width.%]="getAverageGradeBySubject(subject)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Chart Panel -->
+    <div class="chart-panel right-panel" 
+         (dragover)="onDragOver($event)" 
+         (drop)="onDrop($event, 'right')">
+      <div class="chart-placeholder" *ngIf="!getChartByPosition('right')">
+        <mat-icon>insert_chart</mat-icon>
+        <p>Drop a chart here</p>
+      </div>
+      
+      <div class="chart-content" *ngIf="getChartByPosition('right') as chart">
+        <div class="chart-header" 
+             [draggable]="true" 
+             (dragstart)="onDragStart($event, chart)">
+          <h3>{{chart.title}}</h3>
+          <mat-icon class="drag-handle">drag_indicator</mat-icon>
+        </div>
+        
+        <div class="chart-body">
+          <div *ngIf="chart.type === 'chart1'" class="chart-data">
+            <h4>Grades Average Over Time</h4>
+            <div class="student-grades" *ngFor="let student of getFilteredStudents()">
+              <div class="student-info">
+                <strong>{{student.name}} ({{student.id}})</strong>
+                <span class="average-grade">Average: {{getAverageGradeByStudent(student.id).toFixed(1)}}%</span>
+              </div>
+              <div class="grade-bar">
+                <div class="grade-fill" [style.width.%]="getAverageGradeByStudent(student.id)"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="chart.type === 'chart2'" class="chart-data">
+            <h4>Student Averages</h4>
+            <div class="student-averages" *ngFor="let student of getFilteredStudents()">
+              <div class="student-card">
+                <div class="student-header">
+                  <strong>{{student.name}}</strong>
+                  <span class="student-id">{{student.id}}</span>
+                </div>
+                <div class="student-stats">
+                  <div class="stat">
+                    <span class="label">Subject:</span>
+                    <span class="value">{{student.subject}}</span>
+                  </div>
+                  <div class="stat">
+                    <span class="label">Grade:</span>
+                    <span class="value">{{student.grade}}%</span>
+                  </div>
+                  <div class="stat">
+                    <span class="label">Date:</span>
+                    <span class="value">{{student.date}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="chart.type === 'chart3'" class="chart-data">
+            <h4>Subject Averages</h4>
+            <div class="subject-grades" *ngFor="let subject of selectedSubjects.length > 0 ? selectedSubjects : availableSubjects">
+              <div class="subject-info">
+                <strong>{{subject}}</strong>
+                <span class="average-grade">Average: {{getAverageGradeBySubject(subject).toFixed(1)}}%</span>
+              </div>
+              <div class="grade-bar">
+                <div class="grade-fill" [style.width.%]="getAverageGradeBySubject(subject)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Hidden Chart Button -->
+  <div class="bottom-chart-section">
+    <div class="hidden-chart-button" 
+         *ngIf="getChartByPosition('bottom') as chart"
+         [draggable]="true" 
+         (dragstart)="onDragStart($event, chart)">
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>{{chart.title}}</mat-card-title>
+          <mat-icon class="drag-handle">drag_indicator</mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Drag this chart to replace one of the main charts above</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div> 
