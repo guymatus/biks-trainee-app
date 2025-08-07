@@ -6,6 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DataService, Student } from '../../core/services/data.service';
 import { StateService, AnalysisPageState } from '../../core/services/state.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -28,7 +29,8 @@ export interface ChartConfig {
     MatSelectModule,
     MatButtonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
   ],
   templateUrl: './analysis-page.component.html',
   styleUrls: ['./analysis-page.component.scss']
@@ -129,6 +131,12 @@ export class AnalysisPageComponent implements OnInit, OnDestroy {
   }
 
   onSubjectsChange(): void {
+    this.saveState();
+  }
+
+  clearAllFilters(): void {
+    this.selectedStudentIds = [];
+    this.selectedSubjects = [];
     this.saveState();
   }
 

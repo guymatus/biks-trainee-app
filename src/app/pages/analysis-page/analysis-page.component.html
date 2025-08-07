@@ -2,6 +2,17 @@
  
 
   <div class="controls-section">
+    <div class="controls-header">
+      <h3>Filters</h3>
+      <button mat-icon-button 
+              class="clear-all-button" 
+              (click)="clearAllFilters()" 
+              [disabled]="selectedStudentIds.length === 0 && selectedSubjects.length === 0"
+              matTooltip="Clear all filters">
+        <mat-icon>clear_all</mat-icon>
+      </button>
+    </div>
+    
     <div class="control-group">
       <mat-form-field appearance="outline" class="multiselect-field">
         <mat-label>IDs</mat-label>
