@@ -1,59 +1,157 @@
-# BiksTraineeApp
+# Biks Trainee Management Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
+A comprehensive Angular-based trainee management system with data visualization, analysis, and monitoring capabilities.
 
-## Development server
+## Features
 
-To start a local development server, run:
+### 📊 Data Management
+- **Student Records**: Manage trainee information with 9-digit IDs
+- **Data Table**: Paginated view with search and filtering capabilities
+- **Add/Remove Students**: Dynamic student management with form validation
+- **Student Details**: Detailed view with comprehensive trainee information
+- **State Persistence**: All filters, selections, and pagination states are saved
+
+### 📈 Analysis Dashboard
+- **Interactive Charts**: Three different chart types for data visualization
+- **Drag & Drop Interface**: Reorganize charts by dragging between panels
+- **Multi-select Filters**: Filter by student IDs and subjects
+- **Real-time Updates**: Charts update dynamically based on filter selections
+- **Responsive Design**: Adapts to different screen sizes
+
+### 📋 Monitor Page
+- **Performance Tracking**: Average grade calculations per student
+- **Pass/Fail Status**: Automatic classification (≥65 = Passed, <65 = Failed)
+- **Advanced Filtering**: Filter by IDs, names, and status
+- **Statistics Dashboard**: Overview of total, passed, and failed students
+- **Color-coded Display**: Visual indicators for performance status
+
+## Technical Stack
+
+- **Framework**: Angular 17 (Standalone Components)
+- **UI Library**: Angular Material
+- **State Management**: Custom State Service with localStorage
+- **Styling**: SCSS with responsive design
+- **Data Format**: DD/MM/YYYY date format, 9-digit student IDs
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/biks-trainee-app.git
+   cd biks-trainee-app
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm start
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:4200`
+
+### Build for Production
 
 ```bash
-ng serve
+npm run build
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Testing
 
-## Code scaffolding
+### Unit Testing
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+The application includes comprehensive unit tests using Angular's testing framework with Jasmine and Karma.
+
+#### Running Unit Tests
 
 ```bash
-ng generate component component-name
+npm test
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+#### Running Tests with Coverage
 
 ```bash
-ng generate --help
+npm run test:coverage
 ```
 
-## Building
+#### Example Test Files
 
-To build the project run:
+- `src/app/pages/data-page/data-page.component.spec.ts` - Data page component tests
+- `src/app/core/services/data.service.spec.ts` - Data service tests
+- `src/app/core/services/state.service.spec.ts` - State management tests
 
-```bash
-ng build
+#### Test Coverage Areas
+
+- **Component Testing**: All Angular components have unit tests
+- **Service Testing**: Mock data service and state persistence service
+- **Filter Logic**: Data filtering and pagination functionality
+- **State Management**: Local storage operations and state restoration
+- **User Interactions**: Button clicks, form submissions, and navigation
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── core/
+│   │   └── services/
+│   │       ├── data.service.ts      # Mock data and CRUD operations
+│   │       └── state.service.ts     # State persistence management
+│   ├── pages/
+│   │   ├── data-page/               # Student data management
+│   │   ├── analysis-page/           # Charts and data visualization
+│   │   └── monitor-page/            # Performance monitoring
+│   └── shared/
+│       └── components/
+│           └── add-student-dialog/  # Student creation dialog
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Key Features Implementation
 
-## Running unit tests
+### State Persistence
+- All page states (filters, selections, pagination) are automatically saved
+- States are restored when returning to pages without refresh
+- Uses localStorage for client-side persistence
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Data Format Standards
+- **Student IDs**: 9-digit format (100000XXX)
+- **Dates**: DD/MM/YYYY format
+- **Grades**: Numeric values with pass/fail threshold at 65
 
-```bash
-ng test
-```
+### Responsive Design
+- Mobile-friendly layouts
+- Adaptive chart positioning
+- Flexible grid systems
 
-## Running end-to-end tests
+## Development Notes
 
-For end-to-end (e2e) testing, run:
+- **Mock Data**: Currently uses 28 sample students with realistic data
+- **Alphabetical Sorting**: Students sorted by first name, then last name
+- **Auto-generated IDs**: New students receive sequential 9-digit IDs
+- **Empty Filter Logic**: Empty filters show all data (no restrictions)
 
-```bash
-ng e2e
-```
+## Contributing
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## Additional Resources
+## License
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+For support or questions, please contact the development team or create an issue in the repository.
