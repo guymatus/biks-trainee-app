@@ -28,11 +28,48 @@
   display: flex;
   align-items: center;
   gap: 16px;
-}
 
-.filter-input {
-  flex: 1;
-  max-width: 400px;
+  .filter-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    flex: 1;
+    max-width: 400px;
+
+    .filter-input {
+      flex: 1;
+    }
+
+    .clear-button {
+      color: #666;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+      opacity: 0;
+      visibility: hidden;
+      
+      &.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      &:hover:not(:disabled) {
+        color: #f44336;
+        background-color: rgba(244, 67, 54, 0.1);
+        transform: scale(1.1);
+      }
+      
+      &:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+      }
+      
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
 }
 
 .action-buttons {

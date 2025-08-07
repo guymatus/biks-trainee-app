@@ -5,11 +5,20 @@
       <!-- Filter Bar -->
       <div class="filter-bar">
         <div class="filter-row">
-          <mat-form-field appearance="outline" class="filter-input">
-            <mat-label>Filter</mat-label>
-            <input matInput [(ngModel)]="filterValue" (ngModelChange)="onFilterChange()"
-              placeholder="ID: ###, grade>90, date>2024-01-20">
-          </mat-form-field>
+          <div class="filter-field">
+            <mat-form-field appearance="outline" class="filter-input">
+              <mat-label>Filter</mat-label>
+              <input matInput [(ngModel)]="filterValue" (ngModelChange)="onFilterChange()"
+                placeholder="ID: ###, grade>90, date>15/01/2024">
+            </mat-form-field>
+            <button mat-icon-button 
+                    class="clear-button" 
+                    [class.visible]="filterValue.length > 0"
+                    (click)="clearFilter()"
+                    matTooltip="Clear filter">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
           <div class="action-buttons">
             <button mat-raised-button color="primary" (click)="onAddStudent()">Add</button>
             <button mat-raised-button color="warn" [disabled]="!selectedStudent()"

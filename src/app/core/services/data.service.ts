@@ -434,15 +434,21 @@ export class DataService {
         const parts = filterLower.split('>');
         if (parts.length === 2) {
           const field = parts[0].trim();
-          const value = parseFloat(parts[1].trim());
+          const value = parts[1].trim();
           
-          if (field === 'grade' && !isNaN(value)) {
-            return student.grade > value;
+          if (field === 'grade') {
+            const numValue = parseFloat(value);
+            if (!isNaN(numValue)) {
+              return student.grade > numValue;
+            }
           }
-          if (field === 'date' && !isNaN(value)) {
-            const studentDate = new Date(student.date);
-            const filterDate = new Date(value);
-            return studentDate > filterDate;
+          if (field === 'date') {
+            // Handle DD/MM/YYYY format
+            const studentDate = this.parseDate(student.date);
+            const filterDate = this.parseDate(value);
+            if (studentDate && filterDate) {
+              return studentDate > filterDate;
+            }
           }
         }
       }
@@ -451,15 +457,21 @@ export class DataService {
         const parts = filterLower.split('<');
         if (parts.length === 2) {
           const field = parts[0].trim();
-          const value = parseFloat(parts[1].trim());
+          const value = parts[1].trim();
           
-          if (field === 'grade' && !isNaN(value)) {
-            return student.grade < value;
+          if (field === 'grade') {
+            const numValue = parseFloat(value);
+            if (!isNaN(numValue)) {
+              return student.grade < numValue;
+            }
           }
-          if (field === 'date' && !isNaN(value)) {
-            const studentDate = new Date(student.date);
-            const filterDate = new Date(value);
-            return studentDate < filterDate;
+          if (field === 'date') {
+            // Handle DD/MM/YYYY format
+            const studentDate = this.parseDate(student.date);
+            const filterDate = this.parseDate(value);
+            if (studentDate && filterDate) {
+              return studentDate < filterDate;
+            }
           }
         }
       }
@@ -474,6 +486,21 @@ export class DataService {
         student.country?.toLowerCase().includes(filterLower)
       );
     });
+  }
+
+  private parseDate(dateString: string): Date | null {
+    // Handle DD/MM/YYYY format
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
+      const year = parseInt(parts[2], 10);
+      
+      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+        return new Date(year, month, day);
+      }
+    }
+    return null;
   }
 
   addStudent(student: Omit<Student, 'id'>): Observable<Student> {

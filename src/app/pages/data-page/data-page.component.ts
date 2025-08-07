@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DataService, Student, DataResponse } from '../../core/services/data.service';
@@ -29,6 +30,7 @@ export interface DataPageState {
     MatButtonModule,
     MatTableModule,
     MatIconModule,
+    MatTooltipModule,
     FormsModule,
     MatDialogModule
   ],
@@ -184,6 +186,14 @@ export class DataPageComponent implements OnInit, OnDestroy {
   onUnselectStudent() {
     this.selectedStudent.set(null);
     this.saveState();
+  }
+
+  clearFilter() {
+    this.filterValue = '';
+    this.filterText.set('');
+    this.currentPage.set(1);
+    this.saveState();
+    this.loadStudents();
   }
 
   get totalPages(): number {
