@@ -1,65 +1,66 @@
 <div class="analysis-page">
- 
+
 
   <div class="controls-section">
-    <div class="controls-header">
-      <h3>Filters</h3>
-      <button mat-icon-button 
-              class="clear-all-button" 
-              (click)="clearAllFilters()" 
-              [disabled]="selectedStudentIds.length === 0 && selectedSubjects.length === 0"
-              matTooltip="Clear all filters">
-        <mat-icon>clear_all</mat-icon>
-      </button>
-    </div>
-    
     <div class="control-group">
-      <mat-form-field appearance="outline" class="multiselect-field">
-        <mat-label>IDs</mat-label>
-        <mat-select [(ngModel)]="selectedStudentIds" 
-                   (selectionChange)="onStudentIdsChange()" 
-                   multiple 
-                   placeholder="Select trainee IDs for charts 1 and 2">
-          <mat-option *ngFor="let id of availableStudentIds" [value]="id">
-            {{id}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+      <div class="filter-field">
+        <mat-form-field appearance="outline" class="multiselect-field">
+          <mat-label>IDs</mat-label>
+          <mat-select [(ngModel)]="selectedStudentIds" 
+                     (selectionChange)="onStudentIdsChange()" 
+                     multiple
+                     placeholder="Select trainee IDs for charts 1 and 2">
+            <mat-option *ngFor="let id of availableStudentIds" [value]="id">
+              {{id}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button 
+                class="clear-button" 
+                (click)="clearStudentIds()"
+                [disabled]="selectedStudentIds.length === 0" 
+                matTooltip="Clear IDs filter">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
 
-    <div class="control-group">
-      <mat-form-field appearance="outline" class="multiselect-field">
-        <mat-label>Subjects</mat-label>
-        <mat-select [(ngModel)]="selectedSubjects" 
-                   (selectionChange)="onSubjectsChange()" 
-                   multiple 
-                   placeholder="Select subjects for chart 3">
-          <mat-option *ngFor="let subject of availableSubjects" [value]="subject">
-            {{subject}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="filter-field">
+        <mat-form-field appearance="outline" class="multiselect-field">
+          <mat-label>Subjects</mat-label>
+          <mat-select [(ngModel)]="selectedSubjects" 
+                     (selectionChange)="onSubjectsChange()" 
+                     multiple
+                     placeholder="Select subjects for chart 3">
+            <mat-option *ngFor="let subject of availableSubjects" [value]="subject">
+              {{subject}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button 
+                class="clear-button" 
+                (click)="clearSubjects()"
+                [disabled]="selectedSubjects.length === 0" 
+                matTooltip="Clear Subjects filter">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 
   <div class="charts-container">
     <!-- Left Chart Panel -->
-    <div class="chart-panel left-panel" 
-         (dragover)="onDragOver($event)" 
-         (drop)="onDrop($event, 'left')">
+    <div class="chart-panel left-panel" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'left')">
       <div class="chart-placeholder" *ngIf="!getChartByPosition('left')">
         <mat-icon>insert_chart</mat-icon>
         <p>Drop a chart here</p>
       </div>
-      
+
       <div class="chart-content" *ngIf="getChartByPosition('left') as chart">
-        <div class="chart-header" 
-             [draggable]="true" 
-             (dragstart)="onDragStart($event, chart)">
+        <div class="chart-header" [draggable]="true" (dragstart)="onDragStart($event, chart)">
           <h3>{{chart.title}}</h3>
           <mat-icon class="drag-handle">drag_indicator</mat-icon>
         </div>
-        
+
         <div class="chart-body">
           <div *ngIf="chart.type === 'chart1'" class="chart-data">
             <h4>Grades Average Over Time</h4>
@@ -73,7 +74,7 @@
               </div>
             </div>
           </div>
-          
+
           <div *ngIf="chart.type === 'chart2'" class="chart-data">
             <h4>Student Averages</h4>
             <div class="student-averages" *ngFor="let student of getFilteredStudents()">
@@ -99,10 +100,11 @@
               </div>
             </div>
           </div>
-          
+
           <div *ngIf="chart.type === 'chart3'" class="chart-data">
             <h4>Subject Averages</h4>
-            <div class="subject-grades" *ngFor="let subject of selectedSubjects.length > 0 ? selectedSubjects : availableSubjects">
+            <div class="subject-grades"
+              *ngFor="let subject of selectedSubjects.length > 0 ? selectedSubjects : availableSubjects">
               <div class="subject-info">
                 <strong>{{subject}}</strong>
                 <span class="average-grade">Average: {{getAverageGradeBySubject(subject).toFixed(1)}}%</span>
@@ -117,22 +119,18 @@
     </div>
 
     <!-- Right Chart Panel -->
-    <div class="chart-panel right-panel" 
-         (dragover)="onDragOver($event)" 
-         (drop)="onDrop($event, 'right')">
+    <div class="chart-panel right-panel" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'right')">
       <div class="chart-placeholder" *ngIf="!getChartByPosition('right')">
         <mat-icon>insert_chart</mat-icon>
         <p>Drop a chart here</p>
       </div>
-      
+
       <div class="chart-content" *ngIf="getChartByPosition('right') as chart">
-        <div class="chart-header" 
-             [draggable]="true" 
-             (dragstart)="onDragStart($event, chart)">
+        <div class="chart-header" [draggable]="true" (dragstart)="onDragStart($event, chart)">
           <h3>{{chart.title}}</h3>
           <mat-icon class="drag-handle">drag_indicator</mat-icon>
         </div>
-        
+
         <div class="chart-body">
           <div *ngIf="chart.type === 'chart1'" class="chart-data">
             <h4>Grades Average Over Time</h4>
@@ -146,7 +144,7 @@
               </div>
             </div>
           </div>
-          
+
           <div *ngIf="chart.type === 'chart2'" class="chart-data">
             <h4>Student Averages</h4>
             <div class="student-averages" *ngFor="let student of getFilteredStudents()">
@@ -172,10 +170,11 @@
               </div>
             </div>
           </div>
-          
+
           <div *ngIf="chart.type === 'chart3'" class="chart-data">
             <h4>Subject Averages</h4>
-            <div class="subject-grades" *ngFor="let subject of selectedSubjects.length > 0 ? selectedSubjects : availableSubjects">
+            <div class="subject-grades"
+              *ngFor="let subject of selectedSubjects.length > 0 ? selectedSubjects : availableSubjects">
               <div class="subject-info">
                 <strong>{{subject}}</strong>
                 <span class="average-grade">Average: {{getAverageGradeBySubject(subject).toFixed(1)}}%</span>
@@ -192,10 +191,8 @@
 
   <!-- Bottom Hidden Chart Button -->
   <div class="bottom-chart-section">
-    <div class="hidden-chart-button" 
-         *ngIf="getChartByPosition('bottom') as chart"
-         [draggable]="true" 
-         (dragstart)="onDragStart($event, chart)">
+    <div class="hidden-chart-button" *ngIf="getChartByPosition('bottom') as chart" [draggable]="true"
+      (dragstart)="onDragStart($event, chart)">
       <mat-card class="chart-card">
         <mat-card-header>
           <mat-card-title>{{chart.title}}</mat-card-title>
@@ -207,4 +204,4 @@
       </mat-card>
     </div>
   </div>
-</div> 
+</div>

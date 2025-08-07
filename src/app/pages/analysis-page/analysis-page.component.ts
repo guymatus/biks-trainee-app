@@ -140,6 +140,16 @@ export class AnalysisPageComponent implements OnInit, OnDestroy {
     this.saveState();
   }
 
+  clearStudentIds(): void {
+    this.selectedStudentIds = [];
+    this.saveState();
+  }
+
+  clearSubjects(): void {
+    this.selectedSubjects = [];
+    this.saveState();
+  }
+
   onDragStart(event: DragEvent, chart: ChartConfig): void {
     this.draggedChart = chart;
     if (event.dataTransfer) {
