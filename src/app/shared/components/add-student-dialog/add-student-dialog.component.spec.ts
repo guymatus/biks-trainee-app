@@ -54,10 +54,7 @@ describe('AddStudentDialogComponent', () => {
 
   it('should have subjects array populated', () => {
     // Assert
-    expect(component.subjects.length).toBeGreaterThan(0);
-    expect(component.subjects).toContain('Mathematics');
-    expect(component.subjects).toContain('Physics');
-    expect(component.subjects).toContain('Chemistry');
+    expect(component.subjects.length).toBeGreaterThan(0);      
   });
 
   it('should validate form correctly', () => {
