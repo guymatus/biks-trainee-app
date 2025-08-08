@@ -9,9 +9,10 @@
         <div class="filters-grid">
           <!-- IDs Filter -->
           <div class="filter-group">
-            <label>IDs:</label>
+           
             <div class="filter-field">
               <mat-form-field appearance="outline" class="multiselect-field">
+                <mat-label>IDs</mat-label>
                 <mat-select [(ngModel)]="selectedIds" 
                            (selectionChange)="onIdSelectionChange()" 
                            multiple 
@@ -31,16 +32,17 @@
             </div>
           </div>
 
-          <!-- Names Filter -->
-          <div class="filter-group">
-            <label>Names:</label>
-            <div class="filter-field">
-              <mat-form-field appearance="outline">
-                <input matInput 
-                       [(ngModel)]="nameFilter" 
-                       (input)="onNameFilterChange()"
-                       placeholder="Enter name to filter">
-              </mat-form-field>
+                      <!-- Names Filter -->
+            <div class="filter-group">
+              
+              <div class="filter-field">
+                <mat-form-field appearance="outline">
+                  <mat-label>Names</mat-label>
+                  <input matInput 
+                         [(ngModel)]="nameFilter" 
+                         (input)="onNameFilterChange()"
+                         placeholder="Enter names separated by commas (e.g., John, Sarah, Mike)">
+                </mat-form-field>
               <button mat-icon-button 
                       class="clear-button" 
                       [class.visible]="nameFilter.length > 0"
@@ -53,7 +55,6 @@
 
           <!-- State Filter -->
           <div class="filter-group">
-            <label>State:</label>
             <div class="checkbox-group">
               <mat-checkbox [(ngModel)]="showPassed" 
                            (change)="onStatusFilterChange()"

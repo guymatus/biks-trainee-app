@@ -497,6 +497,12 @@ export class DataService {
         }
       }
 
+      // Check for comma-separated names
+      if (filterLower.includes(',')) {
+        const names = filterLower.split(',').map(name => name.trim()).filter(name => name.length > 0);
+        return names.some(name => student.name.toLowerCase().includes(name));
+      }
+      
       // General search across all fields
       return (
         student.id.toLowerCase().includes(filterLower) ||

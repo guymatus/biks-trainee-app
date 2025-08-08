@@ -138,11 +138,11 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
       filtered = filtered.filter(student => this.selectedIds.includes(student.id));
     }
 
-    // Filter by name (empty means "Show All")
+    // Filter by names (empty means "Show All")
     if (this.nameFilter.trim()) {
-      const nameLower = this.nameFilter.toLowerCase();
+      const names = this.nameFilter.split(',').map(name => name.trim().toLowerCase()).filter(name => name.length > 0);
       filtered = filtered.filter(student => 
-        student.name.toLowerCase().includes(nameLower)
+        names.some(name => student.name.toLowerCase().includes(name))
       );
     }
 
