@@ -422,8 +422,8 @@
         }
 
         &.active-page {
-          background-color: #5a6fd8;
-          color: white;
+          background-color: #ffc107 !important;
+          color: #000 !important;
         }
 
         &:disabled {
