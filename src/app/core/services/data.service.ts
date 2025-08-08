@@ -423,6 +423,9 @@ export class DataService {
       filteredStudents = this.applyFilter(filteredStudents, filter);
     }
 
+    // Sort students alphabetically by name
+    filteredStudents.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+
     // Calculate pagination
     const total = filteredStudents.length;
     const startIndex = (page - 1) * pageSize;

@@ -168,8 +168,8 @@ describe('MonitorPageComponent', () => {
 
   it('should return correct status class', () => {
     // Act & Assert
-    expect(component.getStatusClass('Passed')).toBe('passed');
-    expect(component.getStatusClass('Failed')).toBe('failed');
+    expect(component.getStatusClass('Passed')).toBe('status-passed');
+    expect(component.getStatusClass('Failed')).toBe('status-failed');
   });
 
   it('should calculate statistics correctly', () => {

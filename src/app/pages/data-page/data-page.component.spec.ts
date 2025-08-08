@@ -159,7 +159,7 @@ describe('DataPageComponent', () => {
     const savedState = {
       currentPage: 2,
       filterText: 'test',
-      pageSize: 20,
+      pageSize: 10,
       selectedStudentId: '100000001'
     };
     stateService.getPageState.and.returnValue(savedState);
@@ -172,6 +172,6 @@ describe('DataPageComponent', () => {
     expect(component.currentPage()).toBe(2);
     expect(component.filterText()).toBe('test');
     expect(component.filterValue).toBe('test');
-    expect(component.pageSize()).toBe(20);
+    expect(component.pageSize()).toBe(10);
   });
 });

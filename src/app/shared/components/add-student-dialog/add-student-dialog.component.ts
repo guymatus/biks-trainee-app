@@ -66,6 +66,6 @@ export class AddStudentDialogComponent {
   }
 
   isFormValid(): boolean {
-    return !!(this.student.name && this.student.subject && this.student.grade && this.student.grade > 0);
+    return !!(this.student.name && this.student.subject && this.student.grade && this.student.grade > 0 && this.student.grade <= 100);
   }
 } 

@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DataService, Student, DataResponse } from './data.service';
 import { of } from 'rxjs';
 
@@ -7,6 +8,7 @@ describe('DataService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [DataService]
     });
     service = TestBed.inject(DataService);
