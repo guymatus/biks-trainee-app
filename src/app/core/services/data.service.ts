@@ -432,13 +432,12 @@ export class DataService {
     const endIndex = startIndex + pageSize;
     const paginatedStudents = filteredStudents.slice(startIndex, endIndex);
 
-    // Simulate API delay
     return of({
       students: paginatedStudents,
       total,
       page,
       pageSize
-    }).pipe(delay(300)); // Simulate network delay
+    });
   }
 
   private applyFilter(students: Student[], filter: string): Student[] {
@@ -524,14 +523,14 @@ export class DataService {
     };
     
     this.mockStudents.push(newStudent);
-    return of(newStudent).pipe(delay(300));
+    return of(newStudent);
   }
 
   updateStudent(id: string, student: Partial<Student>): Observable<Student> {
     const index = this.mockStudents.findIndex(s => s.id === id);
     if (index !== -1) {
       this.mockStudents[index] = { ...this.mockStudents[index], ...student };
-      return of(this.mockStudents[index]).pipe(delay(300));
+      return of(this.mockStudents[index]);
     }
     throw new Error('Student not found');
   }
@@ -540,7 +539,7 @@ export class DataService {
     const index = this.mockStudents.findIndex(s => s.id === id);
     if (index !== -1) {
       this.mockStudents.splice(index, 1);
-      return of(void 0).pipe(delay(300));
+      return of(void 0);
     }
     throw new Error('Student not found');
   }
@@ -548,12 +547,12 @@ export class DataService {
   getStudentById(id: string): Observable<Student> {
     const student = this.mockStudents.find(s => s.id === id);
     if (student) {
-      return of(student).pipe(delay(300));
+      return of(student);
     }
     throw new Error('Student not found');
   }
 
   getAllStudents(): Observable<Student[]> {
-    return of([...this.mockStudents]).pipe(delay(300));
+    return of([...this.mockStudents]);
   }
 } 
