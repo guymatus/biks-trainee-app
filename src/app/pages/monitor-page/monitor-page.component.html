@@ -94,12 +94,6 @@
   <!-- Data Grid Section -->
   <div class="grid-section">
     <mat-card class="grid-card">
-      <mat-card-header>
-        <mat-card-title>Student Monitor Results</mat-card-title>
-        <mat-card-subtitle>
-          Showing {{filteredStudents.length}} of {{studentMonitors.length}} students
-        </mat-card-subtitle>
-      </mat-card-header>
       <mat-card-content>
         <div class="table-container">
           <table mat-table [dataSource]="filteredStudents" class="monitor-table">
@@ -149,5 +143,27 @@
         </div>
       </mat-card-content>
     </mat-card>
+  </div>
+
+  <!-- Pagination Section -->
+  <div class="pagination-section" *ngIf="totalPages > 1">
+    <div class="pagination-controls">
+      <button mat-button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
+        Prev
+      </button>
+
+      <button mat-button *ngFor="let page of [].constructor(totalPages); let i = index"
+        [class.active-page]="currentPage === i + 1" (click)="onPageChange(i + 1)">
+        {{i + 1}}
+      </button>
+
+      <button mat-button [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
+        Next
+      </button>
+    </div>
+    
+    <div class="pagination-info">
+      {{paginationInfo}}
+    </div>
   </div>
 </div> 

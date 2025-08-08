@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { APP_CONSTANTS } from '../constants/app.constants';
 
 export interface PageState {
   [key: string]: any;
@@ -16,6 +17,8 @@ export interface MonitorPageState {
   nameFilter: string;
   showPassed: boolean;
   showFailed: boolean;
+  currentPage: number;
+  pageSize: number;
 }
 
 @Injectable({
@@ -112,7 +115,9 @@ export class StateService {
       selectedIds: [],
       nameFilter: '',
       showPassed: true,
-      showFailed: true
+      showFailed: true,
+      currentPage: 1,
+      pageSize: APP_CONSTANTS.DEFAULT_PAGE_SIZE
     });
   }
 

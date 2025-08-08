@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DataService, Student } from '../../core/services/data.service';
 import { StateService, MonitorPageState } from '../../core/services/state.service';
 import { Subject, takeUntil } from 'rxjs';
+import { APP_CONSTANTS } from '../../core/constants/app.constants';
 
 export interface StudentMonitor {
   id: string;
@@ -52,6 +53,10 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
   showPassed: boolean = true;
   showFailed: boolean = true;
   
+  // Pagination properties
+  currentPage: number = 1;
+  pageSize: number = APP_CONSTANTS.DEFAULT_PAGE_SIZE;
+  
   availableIds: string[] = [];
   
   // Table properties
@@ -81,6 +86,8 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
     this.nameFilter = savedState.nameFilter || '';
     this.showPassed = savedState.showPassed !== undefined ? savedState.showPassed : true;
     this.showFailed = savedState.showFailed !== undefined ? savedState.showFailed : true;
+    this.currentPage = savedState.currentPage || 1;
+    this.pageSize = savedState.pageSize || APP_CONSTANTS.DEFAULT_PAGE_SIZE;
   }
 
   saveState(): void {
@@ -88,7 +95,9 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
       selectedIds: this.selectedIds,
       nameFilter: this.nameFilter,
       showPassed: this.showPassed,
-      showFailed: this.showFailed
+      showFailed: this.showFailed,
+      currentPage: this.currentPage,
+      pageSize: this.pageSize
     };
 
     this.stateService.setMonitorState(state);
@@ -99,7 +108,7 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
       this.students = students;
       this.availableIds = [...new Set(students.map(s => s.id))];
       this.processStudentData();
-      this.applyFilters();
+      this.applyPagination(); // Use applyPagination instead of applyFilters to preserve page
     });
   }
 
@@ -130,7 +139,7 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
     this.filteredStudents = [...this.studentMonitors];
   }
 
-  applyFilters(): void {
+  applyFilters(resetPage: boolean = true): void {
     let filtered = [...this.studentMonitors];
 
     // Filter by selected IDs (empty means "Show All")
@@ -153,7 +162,15 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
       return true;
     });
 
-    this.filteredStudents = filtered;
+    // Reset to first page when filters change (but not when loading saved state)
+    if (resetPage) {
+      this.currentPage = 1;
+    }
+    
+    // Apply pagination
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.filteredStudents = filtered.slice(startIndex, endIndex);
   }
 
   onIdSelectionChange(): void {
@@ -169,6 +186,17 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
   onStatusFilterChange(): void {
     this.applyFilters();
     this.saveState();
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.applyPagination();
+    this.saveState();
+  }
+
+  applyPagination(): void {
+    // Use applyFilters with resetPage=false to preserve current page
+    this.applyFilters(false);
   }
 
   clearIds(): void {
@@ -197,5 +225,38 @@ export class MonitorPageComponent implements OnInit, OnDestroy {
 
   getTotalCount(): number {
     return this.studentMonitors.length;
+  }
+
+  get totalFilteredCount(): number {
+    let filtered = [...this.studentMonitors];
+
+    if (this.selectedIds.length > 0) {
+      filtered = filtered.filter(student => this.selectedIds.includes(student.id));
+    }
+
+    if (this.nameFilter.trim()) {
+      const names = this.nameFilter.split(',').map(name => name.trim().toLowerCase()).filter(name => name.length > 0);
+      filtered = filtered.filter(student => 
+        names.some(name => student.name.toLowerCase().includes(name))
+      );
+    }
+
+    filtered = filtered.filter(student => {
+      if (student.status === 'Passed' && !this.showPassed) return false;
+      if (student.status === 'Failed' && !this.showFailed) return false;
+      return true;
+    });
+
+    return filtered.length;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalFilteredCount / this.pageSize);
+  }
+
+  get paginationInfo(): string {
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+    const end = Math.min(this.currentPage * this.pageSize, this.totalFilteredCount);
+    return `Showing ${start}-${end} of ${this.totalFilteredCount} students`;
   }
 } 
