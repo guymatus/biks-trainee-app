@@ -1,7 +1,23 @@
 .data-page-container {
-  padding: 20px;
-  background-color: #f5f5f5;
+  padding: 24px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   min-height: calc(100vh - 100px);
+  font-family: 'Roboto', sans-serif;
+  
+  .page-layout {
+    animation: fadeInUp 0.6s ease-out;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .page-layout {
@@ -19,9 +35,11 @@
 .filter-bar {
   margin-bottom: 20px;
   background: white;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  position: relative;
 }
 
 .filter-row {
@@ -74,23 +92,134 @@
 
 .action-buttons {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  
+  ::ng-deep .mat-mdc-button {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    
+    &:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+  }
 }
 
 .table-container {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
   overflow: hidden;
   margin-bottom: 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(180deg,
+        rgba(41, 41, 74, 1) 0%,
+        rgba(41, 41, 74, 1) 60%,
+        rgba(45, 45, 112, 1) 80%,
+        rgba(0, 0, 245, 0.7) 100%);
+    z-index: 1;
+  }
 }
 
 .data-table {
   width: 100%;
   flex: 1;
+  position: relative;
+
+  ::ng-deep .mat-mdc-header-cell {
+    background: linear-gradient(180deg,
+        rgba(41, 41, 74, 1) 0%,
+        rgba(41, 41, 74, 1) 60%,
+        rgba(45, 45, 112, 1) 80%,
+        rgba(0, 0, 245, 0.7) 100%);
+    color: white;
+    font-weight: 700;
+    padding: 12px 16px;
+    border-bottom: 3px solid #5a6fd8;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    position: relative;
+    text-align: center;
+    min-width: 140px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: linear-gradient(180deg,
+          rgba(45, 45, 112, 1) 0%,
+          rgba(45, 45, 112, 1) 60%,
+          rgba(0, 0, 245, 0.8) 80%,
+          rgba(0, 0, 245, 0.9) 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+  }
+
+  ::ng-deep .mat-mdc-cell {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e8e8e8;
+    font-size: 17px;
+    font-weight: 500;
+    color: #2c3e50;
+    text-align: center;
+    min-width: 140px;
+    background: white;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+
+  ::ng-deep .mat-mdc-row {
+    transition: all 0.3s ease;
+    height: 48px;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:hover {
+      background-color: #f8f9fa;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    &.selected-row {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      border-left: 4px solid #667eea;
+      position: relative;
+
+      &::after {
+        content: '✓';
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        font-weight: bold;
+        font-size: 18px;
+        opacity: 0.7;
+      }
+
+      &:hover {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+      }
+    }
+  }
 }
 
 .loading, .no-data {
@@ -120,10 +249,12 @@
   justify-content: space-between;
   align-items: center;
   background: white;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  max-width: 300px;
+  padding: 18px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  max-width: 350px;
+  position: relative;
 }
 
 .pagination-controls {
@@ -143,39 +274,59 @@
 
 /* Details Panel */
 .details-panel {
-  width: 350px;
+  width: 400px;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
   display: flex;
   flex-direction: column;
-  max-height: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .details-header {
-  padding: 16px;
+  padding: 18px 20px;
   border-bottom: 1px solid #e0e0e0;
-  background-color: #f8f9fa;
-  border-radius: 8px 8px 0 0;
+  background: linear-gradient(180deg,
+      rgba(41, 41, 74, 1) 0%,
+      rgba(41, 41, 74, 1) 60%,
+      rgba(45, 45, 112, 1) 80%,
+      rgba(0, 0, 245, 0.7) 100%);
+  border-radius: 12px 12px 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 2;
+  
+  h3 {
+    margin: 0;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
 }
 
 .details-header h3 {
   margin: 0;
-  color: #333;
-  font-size: 18px;
-  font-weight: 600;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .close-button {
-  color: #666;
-  transition: color 0.2s ease;
+  color: white;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  padding: 4px;
   
   &:hover {
-    color: #f44336;
-    background-color: rgba(244, 67, 54, 0.1);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
   }
   
   mat-icon {
@@ -187,49 +338,84 @@
 
 .details-actions {
   display: flex;
-  gap: 8px;
-  padding: 16px;
+  gap: 12px;
+  padding: 18px 20px;
   border-top: 1px solid #e0e0e0;
-  background-color: #f8f9fa;
-  border-radius: 0 0 8px 8px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 0 0 12px 12px;
+  
+  ::ng-deep .mat-mdc-button {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    transition: all 0.3s ease !important;
+    
+    &:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+  }
 }
 
 .details-content {
-  padding: 16px;
+  padding: 20px;
   flex: 1;
   overflow-y: auto;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
 }
 
 .detail-field {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 3px solid #667eea;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateX(2px);
+  }
 }
 
 .detail-field label {
-  font-weight: 600;
-  color: #666;
-  font-size: 12px;
+  font-weight: 700;
+  color: #667eea;
+  font-size: 16px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   min-width: 100px;
   flex-shrink: 0;
+  margin-top: 4px;
 }
 
 .detail-field span {
-  color: #333;
-  font-size: 14px;
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: 500;
   padding: 4px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex: 1;
+  min-width: 0;
 }
 
 .detail-input {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 8px 12px;
-  font-size: 14px;
+  font-size: 18px;
   background-color: #fff;
   transition: border-color 0.2s;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex: 1;
+  min-width: 0;
 }
 
 .detail-input:focus {

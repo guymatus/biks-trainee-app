@@ -5,7 +5,11 @@
 
 // Enhanced Modern Toolbar
 .modern-toolbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(180deg,
+      rgba(41, 41, 74, 1) 0%,
+      rgba(41, 41, 74, 1) 60%,
+      rgba(45, 45, 112, 1) 80%,
+      rgba(0, 0, 245, 0.7) 100%) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
   position: relative !important;
   overflow: hidden !important;
@@ -170,7 +174,11 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
   
   .mat-mdc-header-row {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: linear-gradient(180deg,
+        rgba(41, 41, 74, 1) 0%,
+        rgba(41, 41, 74, 1) 60%,
+        rgba(45, 45, 112, 1) 80%,
+        rgba(0, 0, 245, 0.7) 100%) !important;
     color: white !important;
     font-weight: 600 !important;
   }

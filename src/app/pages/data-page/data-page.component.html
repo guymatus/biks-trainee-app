@@ -68,7 +68,7 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectStudent(row)"
-            [class.selected-row]="selectedStudent()?.id === row.id" class="table-row"></tr>
+            [class.selected-row]="isStudentSelected(row)" class="table-row"></tr>
         </table>
 
         <div *ngIf="!loading() && students().length === 0" class="no-data">

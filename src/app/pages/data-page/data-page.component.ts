@@ -17,6 +17,7 @@ export interface DataPageState {
   currentPage: number;
   filterText: string;
   selectedStudentId?: string;
+  selectedExamKey?: string;
   pageSize: number;
 }
 
@@ -88,7 +89,8 @@ export class DataPageComponent implements OnInit, OnDestroy {
       currentPage: this.currentPage(),
       filterText: this.filterText(),
       pageSize: this.pageSize(),
-      selectedStudentId: this.selectedStudent()?.id
+      selectedStudentId: this.selectedStudent()?.id,
+      selectedExamKey: this.selectedStudent() ? this.getExamRecordKey(this.selectedStudent()!) : undefined
     };
 
     this.stateService.setPageState('data', state);
@@ -181,6 +183,18 @@ export class DataPageComponent implements OnInit, OnDestroy {
   onSelectStudent(student: Student) {
     this.selectedStudent.set(student);
     this.saveState();
+  }
+
+  // Create a unique identifier for each exam record
+  getExamRecordKey(student: Student): string {
+    return `${student.id}-${student.date}-${student.subject}`;
+  }
+
+  // Check if a student record is selected
+  isStudentSelected(student: Student): boolean {
+    if (!this.selectedStudent()) return false;
+    const selected = this.selectedStudent()!;
+    return this.getExamRecordKey(selected) === this.getExamRecordKey(student);
   }
 
   onUnselectStudent() {
