@@ -139,7 +139,9 @@ describe('StateService', () => {
       selectedIds: ['100000001'],
       nameFilter: 'John',
       showPassed: true,
-      showFailed: false
+      showFailed: false,
+      currentPage: 1,
+      pageSize: 10
     };
 
     // Act
